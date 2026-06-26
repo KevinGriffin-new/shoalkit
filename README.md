@@ -93,9 +93,9 @@ The metadata is already filled in — author **Kevin Griffin**, ORCID
 `github.com/KevinGriffin-new/shoalkit`. The remaining steps:
 
 1. Push to GitHub (the canonical home). The `CITATION.cff` gives you a "Cite
-   this repository" button automatically. A SourceHut mirror at
-   `git.sr.ht/~<user>/shoalkit` is fine, but Zenodo archiving (below) is driven
-   off the GitHub repo.
+   this repository" button automatically. A SourceHut mirror lives at
+   [git.sr.ht/~kevin_griffin/shoalkit](https://git.sr.ht/~kevin_griffin/shoalkit),
+   but Zenodo archiving (below) is driven off the GitHub repo.
 3. Log in to [Zenodo](https://zenodo.org) with GitHub, flip the toggle on for
    this repository under *Account → GitHub*.
 4. Cut a release on GitHub (e.g. `v0.1.0`). Zenodo archives the tagged source

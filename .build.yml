@@ -2,14 +2,14 @@
 # Mirrors .github/workflows/ci.yml: install with the test + nonlinear extras
 # (so the raschii cross-check runs) and run pytest.
 # NOTE: set `sources` to your actual mirror URL once it exists,
-#   e.g. https://git.sr.ht/~yourusername/shoalkit
+#   e.g. https://git.sr.ht/~kevin_griffin/shoalkit
 image: debian/stable
 packages:
   - python3
   - python3-venv
   - python3-pip
 sources:
-  - https://git.sr.ht/~yourusername/shoalkit
+  - https://git.sr.ht/~kevin_griffin/shoalkit
 tasks:
   - setup: |
       cd shoalkit
