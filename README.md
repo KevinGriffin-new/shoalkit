@@ -1,5 +1,7 @@
 # shoalkit
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20904933.svg)](https://doi.org/10.5281/zenodo.20904933)
+
 Linear & Stokes wave transformation with theory gating — a small, **citable**
 Python wrapper descended from the University of Delaware / CACR "Wave
 Calculator" (R. A. Dalrymple).
