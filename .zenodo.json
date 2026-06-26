@@ -1,0 +1,32 @@
+{
+  "title": "shoalkit: linear & Stokes wave transformation with theory gating",
+  "upload_type": "software",
+  "license": "MIT",
+  "access_right": "open",
+  "description": "A small, citable Python wrapper for linear water-wave dispersion and deepwater-to-depth transformation (the CACR/UDel wave-calculator output set), with closed-form Airy and second-order Stokes elevation, a raschii bridge for higher-order Stokes / Fenton profiles, and the Ursell number with a transparent wave-theory applicability gate.",
+  "creators": [
+    {
+      "name": "Griffin, Kevin",
+      "orcid": "0009-0005-0439-6684"
+    }
+  ],
+  "keywords": [
+    "ocean waves",
+    "linear wave theory",
+    "Stokes waves",
+    "dispersion relation",
+    "shoaling",
+    "refraction",
+    "Ursell number",
+    "coastal engineering",
+    "hydrography",
+    "bathymetry"
+  ],
+  "related_identifiers": [
+    {
+      "relation": "isSupplementTo",
+      "identifier": "https://github.com/KevinGriffin-new/shoalkit",
+      "scheme": "url"
+    }
+  ]
+}

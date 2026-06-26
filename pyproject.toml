@@ -1,0 +1,43 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "shoalkit"
+version = "0.1.0"
+description = "Linear & Stokes wave transformation with theory gating (a citable CACR-calculator wrapper)"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { file = "LICENSE" }
+keywords = ["ocean waves", "linear wave theory", "Stokes waves", "dispersion",
+            "shoaling", "refraction", "Ursell number", "coastal engineering",
+            "hydrography", "bathymetry"]
+authors = [
+  { name = "Kevin Griffin", email = "thymine-coyest1d@icloud.com" },
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Topic :: Scientific/Engineering :: Physics",
+  "Topic :: Scientific/Engineering :: Oceanography",
+]
+dependencies = []   # core is pure-stdlib
+
+[project.optional-dependencies]
+nonlinear = ["raschii>=1.0", "numpy"]   # higher-order Stokes / Fenton profiles
+test = ["pytest>=7"]
+dev = ["pytest>=7", "raschii>=1.0", "numpy", "ruff"]
+
+[project.urls]
+Homepage = "https://github.com/KevinGriffin-new/shoalkit"
+Repository = "https://github.com/KevinGriffin-new/shoalkit"
+Issues = "https://github.com/KevinGriffin-new/shoalkit/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/shoalkit"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

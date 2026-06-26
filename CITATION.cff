@@ -1,0 +1,44 @@
+cff-version: 1.2.0
+title: "shoalkit: linear & Stokes wave transformation with theory gating"
+message: "If you use this software, please cite it using these metadata."
+type: software
+authors:
+  - given-names: Kevin
+    family-names: Griffin
+    email: "thymine-coyest1d@icloud.com"
+    orcid: "https://orcid.org/0009-0005-0439-6684"
+version: 0.1.0
+date-released: "2026-06-06"
+license: MIT
+repository-code: "https://github.com/KevinGriffin-new/shoalkit"
+# After the first Zenodo release, paste the concept DOI below and uncomment:
+# doi: 10.5281/zenodo.XXXXXXX
+keywords:
+  - ocean waves
+  - linear wave theory
+  - Stokes waves
+  - dispersion relation
+  - shoaling
+  - refraction
+  - Ursell number
+  - coastal engineering
+  - hydrography
+abstract: >-
+  A small, citable Python wrapper that solves the linear water-wave dispersion
+  relation, reproduces the University of Delaware / CACR wave-calculator output
+  set (wavelength, wavenumber, celerity, group velocity, direction, shoaling and
+  refraction coefficients, and bottom orbital velocity), provides closed-form
+  Airy and second-order Stokes surface elevation, bridges to raschii for
+  higher-order Stokes and Fenton stream-function profiles, and exposes the
+  Ursell number (two pinned conventions) with a transparent wave-theory
+  applicability gate.
+references:
+  - type: book
+    authors:
+      - given-names: "Robert G."
+        family-names: Dean
+      - given-names: "Robert A."
+        family-names: Dalrymple
+    title: "Water Wave Mechanics for Engineers and Scientists"
+    publisher:
+      name: "World Scientific"

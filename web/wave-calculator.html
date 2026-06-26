@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Linear Wave Calculator</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+  :root{
+    --abyss:#0a1929; --deep:#0e2438; --panel:#132e48; --line:#1e4163;
+    --foam:#e8f4f8; --mute:#7da3bd; --cyan:#46c8d8; --amber:#f2b134; --kelp:#5ad6a0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'IBM Plex Mono',monospace;
+    background:radial-gradient(1200px 600px at 80% -10%, #14375a 0%, transparent 60%),linear-gradient(180deg,#0a1929 0%, #081521 100%);
+    color:var(--foam);min-height:100vh;padding:32px 20px 60px;line-height:1.5;
+  }
+  .wrap{max-width:1000px;margin:0 auto}
+  header{margin-bottom:24px;border-bottom:1px solid var(--line);padding-bottom:18px}
+  h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(28px,5vw,42px);letter-spacing:-0.01em;line-height:1.05}
+  h1 .sub{display:block;font-size:14px;font-family:'IBM Plex Mono';font-weight:400;color:var(--mute);letter-spacing:0.04em;margin-top:8px}
+  .grid{display:grid;grid-template-columns:1fr 1.15fr;gap:20px}
+  @media(max-width:760px){.grid{grid-template-columns:1fr}}
+  .card{background:linear-gradient(180deg,var(--panel),var(--deep));border:1px solid var(--line);border-radius:14px;padding:22px}
+  .card h2{font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--cyan);margin-bottom:18px}
+  label{display:block;font-size:11px;letter-spacing:0.08em;color:var(--mute);text-transform:uppercase;margin-bottom:6px}
+  .field{margin-bottom:16px}
+  input[type=number]{width:100%;background:var(--abyss);border:1px solid var(--line);border-radius:8px;color:var(--foam);font-family:'IBM Plex Mono';font-size:17px;padding:10px 12px;transition:border-color .15s}
+  input[type=number]:focus{outline:none;border-color:var(--cyan)}
+  .toggle{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-bottom:8px}
+  .toggle button{flex:1;background:var(--abyss);border:none;color:var(--mute);font-family:'IBM Plex Mono';font-size:11px;letter-spacing:0.04em;padding:9px 4px;cursor:pointer;transition:.15s}
+  .toggle button.on{background:var(--cyan);color:var(--abyss);font-weight:600}
+  .hint{font-size:10px;color:var(--mute);letter-spacing:0.03em;margin-top:4px;min-height:13px}
+  .results{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .cell{background:var(--deep);padding:14px 16px}
+  .cell .k{font-size:10px;letter-spacing:0.1em;color:var(--mute);text-transform:uppercase}
+  .cell .v{font-size:21px;font-weight:500;margin-top:3px}
+  .cell .v small{font-size:12px;color:var(--mute);margin-left:4px;font-weight:400}
+  .cell.hl .v{color:var(--amber)}
+  .cell.full{grid-column:1 / -1}
+  .regime{display:inline-block;font-size:11px;letter-spacing:0.08em;padding:3px 10px;border-radius:999px;margin-top:14px}
+  .regime.deep{background:rgba(70,200,216,.15);color:var(--cyan)}
+  .regime.trans{background:rgba(242,177,52,.15);color:var(--amber)}
+  .regime.shallow{background:rgba(90,214,160,.15);color:var(--kelp)}
+  .animcard{margin-top:20px}
+  .animbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+  .animbar button.play{background:var(--cyan);color:var(--abyss);border:none;border-radius:8px;font-family:'IBM Plex Mono';font-weight:600;font-size:13px;padding:9px 18px;cursor:pointer}
+  .spd{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .spd button{background:var(--abyss);border:none;color:var(--mute);font-family:'IBM Plex Mono';font-size:12px;padding:8px 11px;cursor:pointer}
+  .spd button.on{background:var(--amber);color:var(--abyss);font-weight:600}
+  .badge{font-size:12px;color:var(--mute)}
+  .badge b{color:var(--foam);font-weight:600}
+  canvas{width:100%;height:300px;display:block;border-radius:10px;background:linear-gradient(180deg,#0b2236,#081826)}
+  footer{margin-top:26px;font-size:11px;color:var(--mute);line-height:1.7;border-top:1px solid var(--line);padding-top:16px}
+  a{color:var(--cyan)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Linear Wave Calculator
+      <span class="sub">Airy theory · dispersion + Snell's law · after Dean &amp; Dalrymple — a plugin-free rebuild of the CACR/UDel applet</span>
+    </h1>
+  </header>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Input</h2>
+      <div class="field">
+        <label>Wave height H₀ (deepwater, m)</label>
+        <input type="number" id="H0" value="2.0" step="0.1" min="0">
+      </div>
+      <div class="field">
+        <label id="specLabel">Specify wave by — Period T (s)</label>
+        <div class="toggle">
+          <button id="mT" class="on" onclick="setMode('T')">Period (s)</button>
+          <button id="mF" onclick="setMode('F')">Freq (Hz)</button>
+          <button id="mL" onclick="setMode('L')">Wavelength (m)</button>
+        </div>
+        <input type="number" id="spec" value="8.0" step="0.1" min="0.0001">
+        <div class="hint" id="specHint">Deepwater wave period.</div>
+      </div>
+      <div class="field">
+        <label>Direction θ₀ (deg from contour normal)</label>
+        <input type="number" id="dir" value="30" step="1" min="0" max="89">
+      </div>
+      <div class="field" style="margin-bottom:0">
+        <label>Local water depth h (m)</label>
+        <input type="number" id="depth" value="10" step="0.5" min="0.1">
+      </div>
+      <div id="regime" class="regime deep">deepwater</div>
+    </div>
+
+    <div class="card">
+      <h2>Output @ depth h</h2>
+      <div class="results">
+        <div class="cell hl"><div class="k">Wavelength L</div><div class="v" id="oL">–<small>m</small></div></div>
+        <div class="cell hl"><div class="k">Period T</div><div class="v" id="oT">–<small>s</small></div></div>
+        <div class="cell"><div class="k">Wave number k</div><div class="v" id="ok">–<small>1/m</small></div></div>
+        <div class="cell"><div class="k">kh</div><div class="v" id="okh">–</div></div>
+        <div class="cell"><div class="k">Celerity C = L/T</div><div class="v" id="oC">–<small>m/s</small></div></div>
+        <div class="cell"><div class="k">Group velocity Cg</div><div class="v" id="oCg">–<small>m/s</small></div></div>
+        <div class="cell"><div class="k">Direction θ</div><div class="v" id="oth">–<small>°</small></div></div>
+        <div class="cell"><div class="k">Bottom vel. u_b</div><div class="v" id="oub">–<small>m/s</small></div></div>
+        <div class="cell"><div class="k">Shoaling Ks</div><div class="v" id="oKs">–</div></div>
+        <div class="cell"><div class="k">Refraction Kr</div><div class="v" id="oKr">–</div></div>
+        <div class="cell hl full"><div class="k">Local wave height H = H₀·Ks·Kr</div><div class="v" id="oH">–<small>m</small></div></div>
+        <div class="cell full"><div class="k">Deepwater ref: L₀ / C₀ / Cg₀</div><div class="v" id="oref" style="font-size:15px">–</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card animcard">
+    <h2>Live Wave — period-accurate at 1×</h2>
+    <div class="animbar">
+      <button class="play" id="playBtn" onclick="togglePlay()">⏸ Pause</button>
+      <div class="spd" id="spdTog">
+        <button onclick="setSpeed(0.25)">0.25×</button>
+        <button onclick="setSpeed(0.5)">0.5×</button>
+        <button class="on" onclick="setSpeed(1)">1×</button>
+        <button onclick="setSpeed(2)">2×</button>
+      </div>
+      <div class="spd" id="theoryTog">
+        <button class="on" onclick="setTheory('lin')">Linear (Airy)</button>
+        <button onclick="setTheory('stokes')">2nd-order Stokes</button>
+      </div>
+      <div class="badge">T&nbsp;=&nbsp;<b id="bT">–</b>s &nbsp;·&nbsp; C&nbsp;=&nbsp;<b id="bC">–</b>m/s &nbsp;·&nbsp; elapsed&nbsp;<b id="bClock">0.0</b>s &nbsp;·&nbsp; cycles&nbsp;<b id="bCyc">0</b></div>
+    </div>
+    <canvas id="cv"></canvas>
+    <div class="hint" id="vex" style="margin-top:8px"></div>
+  </div>
+
+  <footer>
+    ω² = g·k·tanh(kh) solved by Newton iteration (or inverted directly from L) · Cg = nC, n = ½(1 + 2kh/sinh 2kh) ·
+    Ks = √(Cg₀/Cg) · Snell: sinθ = (C/C₀)·sinθ₀, Kr = √(cosθ₀/cosθ) · H = H₀·Ks·Kr · u_b = πH /(T·sinh kh).
+    Wavelength input is the <i>local</i> wavelength at depth h. Direction is from the normal to straight, parallel contours. g = 9.81 m/s².
+    The animation advances surface phase by real elapsed time, so at 1× the oscillation period is wall-clock accurate; vertical is exaggerated, horizontal is to scale.
+    Self-contained — save and open anywhere, no network, no Java.
+  </footer>
+</div>
+
+<script>
+const g = 9.81;
+let mode = 'T';
+let sol = null;           // current solution shared with the animation
+const HINTS = {
+  T:'Deepwater wave period.',
+  F:'Deepwater frequency (f = 1/T).',
+  L:'Local wavelength measured at depth h — T is solved from it.'
+};
+
+function setMode(m){
+  const inp = document.getElementById('spec');
+  const v = parseFloat(inp.value);
+  // sensible conversion of the displayed value when switching modes
+  if(sol){
+    if(m==='T') inp.value = sol.T.toPrecision(4);
+    else if(m==='F') inp.value = (1/sol.T).toPrecision(4);
+    else if(m==='L') inp.value = sol.L.toPrecision(4);
+  }
+  mode = m;
+  document.getElementById('mT').classList.toggle('on', m==='T');
+  document.getElementById('mF').classList.toggle('on', m==='F');
+  document.getElementById('mL').classList.toggle('on', m==='L');
+  const labels = {T:'Specify wave by — Period T (s)', F:'Specify wave by — Frequency f (Hz)', L:'Specify wave by — Wavelength L (m)'};
+  document.getElementById('specLabel').textContent = labels[m];
+  document.getElementById('specHint').textContent = HINTS[m];
+  compute();
+}
+
+// Solve ω² = g k tanh(kh) for k (Newton, with a strong explicit seed)
+function solveK(omega, h){
+  const w2 = omega*omega;
+  const x = w2*h/g;                      // k0*h
+  let k = (x/Math.sqrt(Math.tanh(x)))/h; // seed
+  for(let i=0;i<60;i++){
+    const t = Math.tanh(k*h);
+    const f = g*k*t - w2;
+    const fp = g*t + g*k*h*(1 - t*t);
+    const step = f/fp;
+    k -= step;
+    if(Math.abs(step) < 1e-12) break;
+  }
+  return k;
+}
+
+function compute(){
+  const H0  = parseFloat(document.getElementById('H0').value);
+  const raw = parseFloat(document.getElementById('spec').value);
+  const th0 = parseFloat(document.getElementById('dir').value) * Math.PI/180;
+  const h   = parseFloat(document.getElementById('depth').value);
+  if([H0,raw,th0,h].some(x=>!isFinite(x)) || raw<=0 || h<=0) return;
+
+  let T, omega, k;
+  if(mode==='L'){
+    k = 2*Math.PI/raw;                         // local wavelength -> k
+    omega = Math.sqrt(g*k*Math.tanh(k*h));     // invert dispersion
+    T = 2*Math.PI/omega;
+  } else {
+    T = (mode==='T') ? raw : 1/raw;
+    omega = 2*Math.PI/T;
+    k = solveK(omega, h);
+  }
+
+  const L0  = g*T*T/(2*Math.PI);
+  const C0  = L0/T;
+  const Cg0 = C0/2;
+
+  const L  = 2*Math.PI/k;
+  const C  = omega/k;
+  const kh = k*h;
+  const n  = 0.5*(1 + 2*kh/Math.sinh(2*kh));
+  const Cg = n*C;
+  const Ks = Math.sqrt(Cg0/Cg);
+
+  let sinth = (C/C0)*Math.sin(th0);
+  sinth = Math.max(-1, Math.min(1, sinth));
+  const th = Math.asin(sinth);
+  const Kr = Math.sqrt(Math.cos(th0)/Math.cos(th));
+
+  const H  = H0*Ks*Kr;
+  const ub = Math.PI*H/(T*Math.sinh(kh));
+
+  const set=(id,val,p=3)=>{
+    const el=document.getElementById(id), small=el.querySelector('small');
+    el.firstChild.nodeValue = (isFinite(val)?val.toPrecision(p):'–');
+    if(small) el.appendChild(small);
+  };
+  set('oL',L); set('oT',T); set('ok',k,4); set('oC',C); set('oCg',Cg);
+  set('oth', th*180/Math.PI); set('oKs',Ks,4); set('oKr',Kr,4); set('oH',H); set('oub',ub);
+  document.getElementById('okh').textContent = kh.toPrecision(4);
+  document.getElementById('oref').textContent =
+    `${L0.toPrecision(4)} m  /  ${C0.toPrecision(4)} m/s  /  ${Cg0.toPrecision(4)} m/s`;
+
+  const rel = h/L, r = document.getElementById('regime');
+  if(rel > 0.5){ r.textContent='deepwater  (h/L = '+rel.toFixed(2)+')'; r.className='regime deep'; }
+  else if(rel < 0.05){ r.textContent='shallow water  (h/L = '+rel.toFixed(3)+')'; r.className='regime shallow'; }
+  else { r.textContent='transitional  (h/L = '+rel.toFixed(2)+')'; r.className='regime trans'; }
+
+  sol = {T, omega, k, L, C, H, h};
+  document.getElementById('bT').textContent = T.toPrecision(3);
+  document.getElementById('bC').textContent = C.toPrecision(3);
+}
+
+/* ---------------- Animation ---------------- */
+const cv = document.getElementById('cv');
+const ctx = cv.getContext('2d');
+let playing = true, speed = 1, tSim = 0, lastT = null, cycleCount = 0, lastFrac = 0;
+let theory = 'lin';
+
+function setSpeed(s){
+  speed = s;
+  document.querySelectorAll('#spdTog button').forEach(b=>{
+    b.classList.toggle('on', parseFloat(b.textContent)===s);
+  });
+}
+function setTheory(t){
+  theory = t;
+  const btns = document.querySelectorAll('#theoryTog button');
+  btns[0].classList.toggle('on', t==='lin');
+  btns[1].classList.toggle('on', t==='stokes');
+}
+function togglePlay(){
+  playing = !playing;
+  document.getElementById('playBtn').textContent = playing ? '⏸ Pause' : '▶ Play';
+  if(playing) lastT = null;
+}
+function resize(){
+  const dpr = window.devicePixelRatio||1;
+  const w = cv.clientWidth, hh = cv.clientHeight;
+  cv.width = w*dpr; cv.height = hh*dpr;
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+}
+window.addEventListener('resize', resize);
+
+function frame(now){
+  if(lastT===null) lastT = now;
+  const dt = (now-lastT)/1000; lastT = now;
+  if(playing && sol) tSim += dt*speed;
+  draw();
+  requestAnimationFrame(frame);
+}
+
+function draw(){
+  const W = cv.clientWidth, Hpx = cv.clientHeight;
+  ctx.clearRect(0,0,W,Hpx);
+  if(!sol) return;
+  const {omega, k, L, C, H, h} = sol;
+
+  const kh = k*h;
+  // horizontal: true-to-scale, show 2 wavelengths across the canvas
+  const sx = W/(2*L);                  // px per metre (x)
+  const ySea = Hpx*0.40;
+
+  // surface elevation: linear (Airy) or 2nd-order Stokes (Dean & Dalrymple).
+  // 2nd harmonic is in phase with the 1st at the crest -> peaked crest, flat trough.
+  const a = H/2;
+  let a2 = 0;
+  if(theory==='stokes'){
+    a2 = (H*H*k/16) * (Math.cosh(kh)*(2+Math.cosh(2*kh))) / Math.pow(Math.sinh(kh),3);
+  }
+  const etaFn = (xm)=>{ const ph = k*xm - omega*tSim; return a*Math.cos(ph) + a2*Math.cos(2*ph); };
+  const etaMax = a + a2;               // crest elevation (ph = 0)
+  const Ur = H*L*L/(h*h*h);            // Ursell number — Stokes validity gauge
+
+  // vertical: exaggerate so the wave is visible; scale from the true peak so the
+  // steepened Stokes crest always fits and the trough never crosses the bed.
+  const ampPx = Math.min(Hpx*0.30, Math.max(8, Hpx*0.24));
+  const vscale = ampPx/(etaMax || 1);  // px per metre (z), exaggerated
+  const exag = vscale/sx;
+
+  // water body
+  ctx.beginPath();
+  ctx.moveTo(0,ySea);
+  for(let x=0;x<=W;x+=2){
+    ctx.lineTo(x, ySea - etaFn(x/sx)*vscale);
+  }
+  ctx.lineTo(W,Hpx); ctx.lineTo(0,Hpx); ctx.closePath();
+  const grad = ctx.createLinearGradient(0,ySea,0,Hpx);
+  grad.addColorStop(0,'#1d4e6b'); grad.addColorStop(1,'#0a1c2c');
+  ctx.fillStyle = grad; ctx.fill();
+
+  // seabed at z = -h, drawn on the SAME (exaggerated) vertical scale as the
+  // surface. Because H/2 < h for any real wave, the trough can never reach it.
+  const yBed = ySea + h*vscale;
+  if(yBed < Hpx-2){
+    ctx.fillStyle = '#3a2e1c';
+    ctx.fillRect(0,yBed,W,Hpx-yBed);
+    ctx.strokeStyle='#5a4a2c'; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.moveTo(0,yBed); ctx.lineTo(W,yBed); ctx.stroke();
+    ctx.fillStyle='#caa063'; ctx.font='11px IBM Plex Mono';
+    ctx.fillText('seabed · h = '+h+' m', 8, yBed-6);
+  } else {
+    // bed lies below the visible window at this scale — say so explicitly
+    ctx.fillStyle='rgba(125,163,189,.7)'; ctx.font='10px IBM Plex Mono';
+    ctx.fillText('↓ seabed at h = '+h+' m  (below view · h/L = '+(h/L).toFixed(2)+')', 8, Hpx-8);
+  }
+
+  // mean water line
+  ctx.strokeStyle='rgba(125,163,189,.4)'; ctx.setLineDash([4,4]);
+  ctx.beginPath(); ctx.moveTo(0,ySea); ctx.lineTo(W,ySea); ctx.stroke(); ctx.setLineDash([]);
+
+  // surface line
+  ctx.beginPath();
+  for(let x=0;x<=W;x+=2){
+    const y = ySea - etaFn(x/sx)*vscale;
+    if(x===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  }
+  const outOfRange = (theory==='stokes' && Ur>26);
+  ctx.strokeStyle = outOfRange ? '#f2b134' : '#46c8d8'; ctx.lineWidth=2.5; ctx.stroke();
+
+  // wavelength caliper near top
+  ctx.strokeStyle='rgba(70,200,216,.5)'; ctx.lineWidth=1;
+  const xL = L*sx;
+  ctx.beginPath(); ctx.moveTo(0,18); ctx.lineTo(xL,18); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(0,13); ctx.lineTo(0,23); ctx.moveTo(xL,13); ctx.lineTo(xL,23); ctx.stroke();
+  ctx.fillStyle='#46c8d8'; ctx.font='11px IBM Plex Mono';
+  ctx.fillText('L = '+L.toPrecision(3)+' m', 6, 12);
+
+  // fixed probe (stationary observer) — vertical motion here has period T
+  const xp = W*0.14;
+  const yp = ySea - etaFn(xp/sx)*vscale;
+  ctx.strokeStyle='rgba(242,177,52,.35)'; ctx.beginPath(); ctx.moveTo(xp,18); ctx.lineTo(xp,Hpx); ctx.stroke();
+  ctx.fillStyle='#f2b134'; ctx.beginPath(); ctx.arc(xp,yp,6,0,7); ctx.fill();
+
+  // period-progress ring (completes once per T)
+  const frac = sol.T>0 ? ((tSim % sol.T)+sol.T)%sol.T / sol.T : 0;
+  if(frac < lastFrac) cycleCount++;
+  lastFrac = frac;
+  const cx=W-34, cy=34, rr=16;
+  ctx.strokeStyle='rgba(125,163,189,.3)'; ctx.lineWidth=4;
+  ctx.beginPath(); ctx.arc(cx,cy,rr,0,7); ctx.stroke();
+  ctx.strokeStyle='#f2b134'; ctx.beginPath();
+  ctx.arc(cx,cy,rr,-Math.PI/2,-Math.PI/2+frac*2*Math.PI); ctx.stroke();
+  ctx.fillStyle='#7da3bd'; ctx.font='9px IBM Plex Mono'; ctx.textAlign='center';
+  ctx.fillText('1 period',cx,cy+3); ctx.textAlign='left';
+
+  // readouts
+  document.getElementById('bClock').textContent = tSim.toFixed(1);
+  document.getElementById('bCyc').textContent = cycleCount;
+  let note = 'Horizontal: to scale ('+sx.toPrecision(2)+' px/m). Vertical exaggerated ≈ '+exag.toFixed(0)+
+    '× (surface + depth share one scale, so the trough never crosses the bed). Crests move right at C = '+C.toPrecision(3)+' m/s.';
+  if(theory==='stokes'){
+    note += '  2nd-order Stokes: peaked crest / flat trough. Ursell Ur = '+Ur.toPrecision(2)+
+      (Ur>26 ? ' > 26 ⚠ shallow-water regime — Stokes is out of range here (cnoidal applies); the shape shown is unreliable.'
+             : ' (< 26, Stokes valid). Crest is steeper as h/L falls.');
+  } else {
+    note += '  Linear (Airy): pure sinusoid at every depth — the bed sets L, C, H but not the surface shape.';
+  }
+  document.getElementById('vex').textContent = note;
+}
+
+document.querySelectorAll('input').forEach(el=>el.addEventListener('input',compute));
+resize(); compute(); requestAnimationFrame(frame);
+</script>
+</body>
+</html>
