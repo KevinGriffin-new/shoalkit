@@ -113,18 +113,21 @@ with a *isSupplementTo* / *isSourceOf* related-identifier pair.
 
 ## Acknowledgments
 
+This little tool exists because of people who made waves *click* for me.
+
 - **Pam Borman**, my physics instructor at BCIT, who introduced me to Dr. John
   N. Shive's 1959 Bell Labs film *Similarities of Wave Behavior*.
 - **Dr. John N. Shive** (Bell Telephone Laboratories), for that film and the
   coupled-oscillator "Shive wave machine" behind it.
-- **A. Spicer Bak**, whose conversations got me looking more closely at how
-  waves behave as they shoal and break across a beachface.
+- **A. Spicer Bak**, whose conversations got me looking far more closely at how
+  waves really behave as they shoal and break across a beachface — the part of
+  the problem this package is meant to help reason about.
 - **COMREN / the Ocean Mapping group** ([oceanmapping.ca](https://oceanmapping.ca)),
   for funding my travel to CHC 2026.
-- **James Cowan**, for arranging the pieces — COMREN, conference, and BCIT
-  funding and permission — that made that trip possible.
+- **James Cowan**, for arranging the many moving pieces — COMREN, the
+  conference, and BCIT funding and permission — that made that trip possible.
 
-Any remaining errors are my own.
+Any errors are mine, not theirs.
 
 ## References
 
