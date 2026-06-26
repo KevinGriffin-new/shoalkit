@@ -68,7 +68,9 @@ consult Le Méhauté's diagram directly — this is a screen, not a substitute.
 `web/wave-calculator.html` is a self-contained, plugin-free reimplementation of
 the original applet with a period-accurate animation and a linear/Stokes
 toggle. It runs offline in any browser and can be deposited as its own
-research artifact (see below).
+research artifact (see below). Its two typefaces (IBM Plex Mono, Fraunces — both
+SIL OFL 1.1) are **embedded as base64**, so it makes zero network requests and
+renders identically in perpetuity; license text lives in `web/fonts/`.
 
 ## Tests
 
