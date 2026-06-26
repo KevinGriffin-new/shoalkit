@@ -4,11 +4,11 @@
 
 ▶ **[Try the live wave calculator](https://kevingriffin-new.github.io/shoalkit/web/wave-calculator.html)** — interactive, period-accurate animation; runs entirely in your browser.
 
-Linear & Stokes wave transformation with theory gating — a small, **citable**
-Python wrapper descended from the University of Delaware / CACR "Wave
-Calculator" (R. A. Dalrymple).
+Linear & Stokes wave transformation with theory gating. A **citable** Python
+wrapper descended from the University of Delaware / CACR "Wave Calculator"
+(R. A. Dalrymple).
 
-It does three things, deliberately:
+It does three things:
 
 1. **Dispersion + transformation.** Solves `ω² = g·k·tanh(kh)` and reproduces
    the CACR output set at a target depth: wavelength `L`, wavenumber `k`,
@@ -19,8 +19,8 @@ It does three things, deliberately:
    for higher-order Stokes (3rd–5th) and Fenton stream-function waves, plus
    orbital velocities.
 3. **Theory gating.** The Ursell number in two **pinned** conventions and a
-   transparent `recommend_theory` screen, so a pipeline can decide when linear
-   inversion is trustworthy versus when it should fall back to nonlinear forms.
+   `recommend_theory` screen, so a pipeline can decide when linear inversion is
+   trustworthy and when to fall back to nonlinear forms.
 
 The core is pure standard library; `raschii`/`numpy` are optional.
 
@@ -64,8 +64,8 @@ The literature uses two normalizations. Both are provided and named:
 
 Linear validity bound: engineering `Ur ≪ 32π²/3 ≈ 105` (equivalently normalized
 `≪ 1`). `recommend_theory` uses a coarse Stokes/cnoidal crossover near
-engineering `Ur ≈ 26` by default; all thresholds are arguments. For design work,
-consult Le Méhauté's diagram directly — this is a screen, not a substitute.
+engineering `Ur ≈ 26` by default; all thresholds are arguments. The screen is
+coarse; for design work, consult Le Méhauté's diagram directly.
 
 ## Interactive artifact
 
@@ -73,9 +73,9 @@ consult Le Méhauté's diagram directly — this is a screen, not a substitute.
 the original applet with a period-accurate animation and a linear/Stokes
 toggle. **[Open it live](https://kevingriffin-new.github.io/shoalkit/web/wave-calculator.html)**
 (GitHub Pages), or download the single file — it runs offline in any browser and
-can be deposited as its own research artifact (see below). Its two typefaces (IBM Plex Mono, Fraunces — both
-SIL OFL 1.1) are **embedded as base64**, so it makes zero network requests and
-renders identically in perpetuity; license text lives in `web/fonts/`.
+can be deposited as its own research artifact (see below). Its two typefaces (IBM
+Plex Mono, Fraunces, both SIL OFL 1.1) are **embedded as base64**, so it makes no
+network requests and renders the same offline; license text is in `web/fonts/`.
 
 ## Tests
 
@@ -113,23 +113,18 @@ with a *isSupplementTo* / *isSourceOf* related-identifier pair.
 
 ## Acknowledgments
 
-This little tool exists because of people who made waves *click* for me.
-
 - **Pam Borman**, my physics instructor at BCIT, who introduced me to Dr. John
-  N. Shive's 1959 Bell Labs film *Similarities of Wave Behavior* — the clearest
-  half hour ever put to film on dispersion, reflection, and standing waves, and
-  the reason a `tanh(kh)` curve feels like something you can actually see.
+  N. Shive's 1959 Bell Labs film *Similarities of Wave Behavior*.
 - **Dr. John N. Shive** (Bell Telephone Laboratories), for that film and the
   coupled-oscillator "Shive wave machine" behind it.
-- **A. Spicer Bak**, whose conversations got me looking far more closely at how
-  waves really behave as they shoal and break across a beachface — the part of
-  the problem this package is meant to help reason about.
+- **A. Spicer Bak**, whose conversations got me looking more closely at how
+  waves behave as they shoal and break across a beachface.
 - **COMREN / the Ocean Mapping group** ([oceanmapping.ca](https://oceanmapping.ca)),
   for funding my travel to CHC 2026.
-- **James Cowan**, for arranging the many moving pieces — COMREN, the
-  conference, and BCIT funding and permission — that made that trip possible.
+- **James Cowan**, for arranging the pieces — COMREN, conference, and BCIT
+  funding and permission — that made that trip possible.
 
-Any errors are mine, not theirs.
+Any remaining errors are my own.
 
 ## References
 
