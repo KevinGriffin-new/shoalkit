@@ -139,7 +139,7 @@ This little tool exists because of people who made waves *click* for me.
   film *Similarities of Wave Behavior*.
 - **Dr. John N. Shive** (Bell Telephone Laboratories), for that film and the
   coupled-oscillator "Shive wave machine" behind it.
-- **A. Spicer Bak**, whose conversations got me looking far more closely at how
+- **[A. Spicer Bak](https://orcid.org/0000-0001-6586-5409)**, whose conversations got me looking far more closely at how
   waves really behave as they shoal and break across a beachface — the part of
   the problem this package is meant to help reason about.
 - **Shelby Fudge**, Placement Officer at the Marine Institute's Office of
