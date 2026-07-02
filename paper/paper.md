@@ -81,6 +81,23 @@ precision; (3) monotonic decay of drift with depth; and (4) convergence of the
 Lagrangian particle track's net velocity to the closed-form drift as wave
 steepness decreases.
 
+# AI-assistance statement
+
+Parts of this work were carried out with the assistance of Claude Science
+(Anthropic), accessed July 2026. Specifically, the tool helped draft the
+`stokes_drift`, `stokes_transport`, `mean_drift_velocity`, and `particle_track`
+implementations in `drift.py`; ran the literature search behind the reference
+list using the OpenAlex and arXiv APIs; and generated the drift animation.
+
+The author reviewed and is responsible for all of it. Every DOI in the
+bibliography was checked against its OpenAlex record; the drift derivations were
+verified against closed-form limits (the deep-water surface drift $\omega k a^2$
+and the transport identity $Q_s = E/(\rho C)$) and against the convergence of
+the Lagrangian particle track to the closed form as steepness vanishes; and the
+implementation's correctness is exercised by the repository's automated test
+suite. The tool is disclosed here as an assistant, not an author: it cannot take
+responsibility for the work, and does not.
+
 # Acknowledgements
 
 `shoalkit` descends from the CACR/University of Delaware Wave Calculator
