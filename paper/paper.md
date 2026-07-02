@@ -52,7 +52,7 @@ against. `shoalkit`'s `mean_drift_velocity` output is directly comparable to the
 net Lagrangian velocity a GNSS-tracked drifter reports.
 
 Full-featured particle-tracking stacks such as Parcels [@Delandmeter2019;
-@vanSebille2018] and spectral wave models are aimed at basin- and regional-scale
+@vanSebille2017] and spectral wave models are aimed at basin- and regional-scale
 simulation, not a single analytic wave. `shoalkit` fills the "one wave, exact,
 in a notebook or a browser" niche; drift is the natural companion to its existing
 orbital-velocity output, and the transport it computes governs the fate of
