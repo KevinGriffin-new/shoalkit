@@ -147,7 +147,7 @@ This little tool exists because of people who made waves *click* for me.
   the funding that sent me to CHC 2026 — where this work began.
 - **COMREN / the Ocean Mapping group** ([oceanmapping.ca](https://oceanmapping.ca)),
   for its part in that travel.
-- **James Cowan**, Program Coordinator (Geomatics – Surveying & Mapping) at the
+- **James Cowan**, Instructor / Program Coordinator (Geomatics – Surveying & Mapping) at the
   British Columbia Institute of Technology, for connecting the pieces — COMREN,
   the conference, and BCIT permission — that made the trip possible.
 
