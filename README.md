@@ -142,10 +142,14 @@ This little tool exists because of people who made waves *click* for me.
 - **A. Spicer Bak**, whose conversations got me looking far more closely at how
   waves really behave as they shoal and break across a beachface — the part of
   the problem this package is meant to help reason about.
+- **Shelby Fudge**, Placement Officer at the Marine Institute's Office of
+  Career Integrated Learning, Memorial University, the contact responsible for
+  the funding that sent me to CHC 2026 — where this work began.
 - **COMREN / the Ocean Mapping group** ([oceanmapping.ca](https://oceanmapping.ca)),
-  for funding my travel to CHC 2026.
-- **James Cowan**, for arranging the many moving pieces — COMREN, the
-  conference, and BCIT funding and permission — that made that trip possible.
+  for its part in that travel.
+- **James Cowan**, Program Coordinator (Geomatics – Surveying & Mapping) at the
+  British Columbia Institute of Technology, for connecting the pieces — COMREN,
+  the conference, and BCIT permission — that made the trip possible.
 
 Any errors are mine, not theirs.
 
