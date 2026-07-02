@@ -9,3 +9,6 @@ dist/
 .venv/
 venv/
 *.swd
+
+# macOS
+.DS_Store
