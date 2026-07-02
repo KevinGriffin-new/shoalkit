@@ -87,3 +87,38 @@ def test_analytic_matches_raschii_stokes2():
     ras = sk.elevation(st, xs, theory="stokes", order=2, backend="raschii")
     for a, r in zip(ana, ras):
         assert a == pytest.approx(r, abs=0.05)  # leading order should agree
+
+
+# ---------------------------------------------------------------------------
+# Stokes drift / Lagrangian transport (drift.py)
+# ---------------------------------------------------------------------------
+
+def test_stokes_drift_deepwater_limit():
+    """u_s(0) -> omega * k * a^2 in deep water (a = H/2)."""
+    st = sk.transform(H0=2.0, T=8.0, h=100.0)  # h/L ~ 1 (deep)
+    a = st.H / 2.0
+    assert sk.stokes_drift(st, 0.0)[0] == pytest.approx(st.omega * st.k * a * a, rel=1e-3)
+
+
+def test_stokes_transport_energy_identity():
+    """Depth-integrated transport equals E/(rho C), E = (1/8) rho g H^2."""
+    st = sk.transform(H0=1.5, T=7.0, h=12.0)
+    rho = 1025.0
+    E = 0.125 * rho * st.g * st.H ** 2
+    assert sk.stokes_transport(st) == pytest.approx(E / (rho * st.C), rel=1e-12)
+
+
+def test_stokes_drift_decreases_with_depth():
+    st = sk.transform(H0=1.5, T=7.0, h=12.0)
+    zs = [0.0, -3.0, -6.0, -9.0]
+    us = sk.stokes_drift(st, zs)
+    assert all(us[i] > us[i + 1] > 0 for i in range(len(us) - 1))
+
+
+def test_particle_track_drifts_forward_toward_closed_form():
+    """RK4 open-orbit net velocity -> closed-form drift as steepness -> 0."""
+    st = sk.transform(H0=0.05, T=7.0, h=12.0)  # gentle: ak ~ 0.009
+    tr = sk.particle_track(st, z0=0.0, n_periods=40, steps_per_period=400)
+    net_v = (tr["x"][-1] - tr["x"][0]) / (tr["t"][-1] - tr["t"][0])
+    assert net_v == pytest.approx(tr["drift_predicted"], rel=0.05)
+    assert net_v > 0  # forward drift

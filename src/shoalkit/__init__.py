@@ -30,6 +30,12 @@ from .gate import (
     ursell,
     ursell_normalized,
 )
+from .drift import (
+    mean_drift_velocity,
+    particle_track,
+    stokes_drift,
+    stokes_transport,
+)
 
 __version__ = "0.1.0"
 
@@ -50,5 +56,9 @@ __all__ = [
     "recommend_theory",
     "ursell",
     "ursell_normalized",
+    "mean_drift_velocity",
+    "particle_track",
+    "stokes_drift",
+    "stokes_transport",
     "__version__",
 ]
