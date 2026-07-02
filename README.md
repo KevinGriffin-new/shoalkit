@@ -21,8 +21,15 @@ It does three things:
 3. **Theory gating.** The Ursell number in two **pinned** conventions and a
    `recommend_theory` screen, so a pipeline can decide when linear inversion is
    trustworthy and when to fall back to nonlinear forms.
+4. **Lagrangian drift.** Closed-form Stokes drift `u_s(z)`, depth-integrated
+   transport `Q_s`, and a dependency-free particle integrator — the net
+   transport a fluid parcel (or a drifting buoy) actually experiences, which the
+   Eulerian outputs above do not show.
 
 The core is pure standard library; `raschii`/`numpy` are optional.
+
+![Fluid parcels ride open orbits that creep forward at the Stokes-drift rate
+(left); the drift profile falls off from surface to bed (right).](docs/stokes_drift.gif)
 
 ## Install
 
@@ -51,7 +58,19 @@ sk.elevation(st, 0.0, theory="fenton", order=5, backend="raschii")
 # theory screen:
 rec = sk.recommend_theory(st.H, st.L, st.h)
 print(rec.recommended, rec.ursell, rec.note)
+
+# Lagrangian drift -- the transport the outputs above don't show:
+sk.stokes_drift(st, [0.0, -2.0, -5.0])   # drift u_s(z) at three depths (m/s)
+sk.stokes_transport(st)                  # depth-integrated Q_s (m^2/s)
+sk.mean_drift_velocity(st)               # Q_s/h, compare to a buoy's net velocity
+
+# open, forward-creeping orbit (the animation above):
+tr = sk.particle_track(st, z0=0.0, n_periods=6)
+print(tr["x"][-1] - tr["x"][0])          # net forward displacement (m)
 ```
+
+Regenerate the animation with `python examples/drift_animation.py`
+(needs `numpy` + `matplotlib`).
 
 ## A note on the Ursell number (read this before quoting a value)
 
@@ -134,6 +153,11 @@ Any errors are mine, not theirs.
 - R. G. Dean & R. A. Dalrymple, *Water Wave Mechanics for Engineers and
   Scientists*, World Scientific.
 - F. Ursell (1953); T. S. Hedges (1995); B. Le Méhauté (1976).
+- G. G. Stokes (1847); M. S. Longuet-Higgins, *Mass transport in water waves*
+  (1953, [doi:10.1098/rsta.1953.0006](https://doi.org/10.1098/rsta.1953.0006));
+  T. S. van den Bremer & Ø. Breivik, *Stokes drift* (2017,
+  [doi:10.1098/rsta.2017.0104](https://doi.org/10.1098/rsta.2017.0104)) — the
+  drift theory behind `drift.py`.
 - J. N. Shive, *Similarities of Wave Behavior* (Bell Telephone Laboratories,
   1959) — coupled-pendulum demonstration of dispersion, reflection, and
   transmission.
