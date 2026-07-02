@@ -11,7 +11,7 @@ authors:
     orcid: 0009-0005-0439-6684
     affiliation: 1
 affiliations:
-  - name: Independent researcher
+  - name: Geomatics, School of Construction and the Environment, British Columbia Institute of Technology, Burnaby, BC, Canada
     index: 1
 date: 2 July 2026
 bibliography: paper.bib

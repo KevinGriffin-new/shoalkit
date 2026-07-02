@@ -134,8 +134,9 @@ with a *isSupplementTo* / *isSourceOf* related-identifier pair.
 
 This little tool exists because of people who made waves *click* for me.
 
-- **Pam Borman**, my physics instructor at BCIT, who introduced me to Dr. John
-  N. Shive's 1959 Bell Labs film *Similarities of Wave Behavior*.
+- **Pam Borman**, my physics instructor at the British Columbia Institute of
+  Technology (BCIT), who introduced me to Dr. John N. Shive's 1959 Bell Labs
+  film *Similarities of Wave Behavior*.
 - **Dr. John N. Shive** (Bell Telephone Laboratories), for that film and the
   coupled-oscillator "Shive wave machine" behind it.
 - **A. Spicer Bak**, whose conversations got me looking far more closely at how
