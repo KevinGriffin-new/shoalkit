@@ -4,14 +4,15 @@ build-backend = "hatchling.build"
 
 [project]
 name = "shoalkit"
-version = "0.1.0"
-description = "Linear & Stokes wave transformation with theory gating (a citable CACR-calculator wrapper)"
+dynamic = ["version"]
+description = "Linear and Stokes wave transformation with Lagrangian drift"
 readme = "README.md"
 requires-python = ">=3.9"
 license = { file = "LICENSE" }
-keywords = ["ocean waves", "linear wave theory", "Stokes waves", "dispersion",
+keywords = ["ocean waves", "linear wave theory", "Stokes waves", "Stokes drift",
+            "Lagrangian transport", "particle tracking", "dispersion",
             "shoaling", "refraction", "Ursell number", "coastal engineering",
-            "hydrography", "bathymetry"]
+            "physical oceanography", "hydrography", "bathymetry"]
 authors = [
   { name = "Kevin Griffin", email = "thymine-coyest1d@icloud.com" },
 ]
@@ -35,6 +36,11 @@ dev = ["pytest>=7", "raschii>=1.0", "numpy", "ruff"]
 Homepage = "https://github.com/KevinGriffin-new/shoalkit"
 Repository = "https://github.com/KevinGriffin-new/shoalkit"
 Issues = "https://github.com/KevinGriffin-new/shoalkit/issues"
+
+# Single source of truth for the version: src/shoalkit/__init__.py.
+# tools/check_metadata.py asserts CITATION.cff and the git tag agree with it.
+[tool.hatch.version]
+path = "src/shoalkit/__init__.py"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/shoalkit"]

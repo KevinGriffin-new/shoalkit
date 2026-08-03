@@ -1,4 +1,4 @@
-"""shoalkit -- linear & Stokes wave transformation with theory gating.
+"""shoalkit -- linear and Stokes wave transformation with Lagrangian drift.
 
 A thin, citable wrapper that:
   * solves the linear dispersion relation and reproduces the CACR/UDel wave

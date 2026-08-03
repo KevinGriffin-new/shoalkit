@@ -4,9 +4,9 @@
 
 ▶ **[Try the live wave calculator](https://kevingriffin-new.github.io/shoalkit/web/wave-calculator.html)** — interactive, period-accurate animation; runs entirely in your browser.
 
-Linear & Stokes wave transformation with theory gating. A **citable** Python
-wrapper descended from the University of Delaware / CACR "Wave Calculator"
-(R. A. Dalrymple).
+Linear and Stokes wave transformation with Lagrangian drift. A **citable**,
+dependency-free Python package descended from the University of Delaware / CACR
+"Wave Calculator" (R. A. Dalrymple).
 
 It does three things:
 
