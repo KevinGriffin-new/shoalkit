@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-title: "shoalkit: linear & Stokes wave transformation with theory gating"
+title: "shoalkit: linear and Stokes wave transformation with Lagrangian drift"
 message: "If you use this software, please cite it using these metadata."
 type: software
 authors:
@@ -7,30 +7,46 @@ authors:
     family-names: Griffin
     email: "thymine-coyest1d@icloud.com"
     orcid: "https://orcid.org/0009-0005-0439-6684"
+# version and date-released describe the most recent tagged release. Bump both
+# in the same commit that creates the next tag, so the Zenodo deposit, this
+# file and paper/paper.md agree at the moment the release webhook fires.
 version: 0.1.0
 date-released: "2026-06-06"
 license: MIT
 repository-code: "https://github.com/KevinGriffin-new/shoalkit"
+# Concept DOI: always resolves to the latest version. Do not replace this with
+# a version DOI.
 doi: 10.5281/zenodo.20904933
 keywords:
   - ocean waves
   - linear wave theory
   - Stokes waves
+  - Stokes drift
+  - Lagrangian transport
+  - particle tracking
+  - wave-following drifters
   - dispersion relation
   - shoaling
   - refraction
   - Ursell number
   - coastal engineering
+  - physical oceanography
   - hydrography
 abstract: >-
-  A small, citable Python wrapper that solves the linear water-wave dispersion
-  relation, reproduces the University of Delaware / CACR wave-calculator output
-  set (wavelength, wavenumber, celerity, group velocity, direction, shoaling and
-  refraction coefficients, and bottom orbital velocity), provides closed-form
-  Airy and second-order Stokes surface elevation, bridges to raschii for
-  higher-order Stokes and Fenton stream-function profiles, and exposes the
-  Ursell number (two pinned conventions) with a transparent wave-theory
-  applicability gate.
+  A small, citable, dependency-free Python package for linear (Airy) and Stokes
+  water-wave theory. It solves the dispersion relation, reproduces the
+  University of Delaware / CACR wave-calculator output set (wavelength,
+  wavenumber, celerity, group velocity, direction, shoaling and refraction
+  coefficients, and bottom orbital velocity), provides closed-form Airy and
+  second-order Stokes surface elevation, and exposes the Ursell number (two
+  pinned conventions) with a transparent wave-theory applicability gate. It
+  additionally answers the Lagrangian question that Eulerian wave calculators do
+  not: the closed-form Stokes drift profile, the depth-integrated Stokes
+  transport, a single mean drift velocity directly comparable to the net
+  velocity a GNSS-tracked drifter reports, and an RK4 particle integrator whose
+  net parcel velocity converges to the closed form as wave steepness vanishes. A
+  raschii bridge supplies higher-order Stokes and Fenton stream-function
+  profiles.
 references:
   - type: book
     authors:

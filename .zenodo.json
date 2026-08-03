@@ -1,9 +1,9 @@
 {
-  "title": "shoalkit: linear & Stokes wave transformation with theory gating",
+  "title": "shoalkit: linear and Stokes wave transformation with Lagrangian drift",
   "upload_type": "software",
   "license": "MIT",
   "access_right": "open",
-  "description": "A small, citable Python wrapper for linear water-wave dispersion and deepwater-to-depth transformation (the CACR/UDel wave-calculator output set), with closed-form Airy and second-order Stokes elevation, a raschii bridge for higher-order Stokes / Fenton profiles, and the Ursell number with a transparent wave-theory applicability gate.",
+  "description": "A small, citable, dependency-free Python package for linear (Airy) and Stokes water-wave theory. It solves the dispersion relation and reproduces the University of Delaware / CACR wave-calculator output set (wavelength, wavenumber, celerity, group velocity, direction, shoaling and refraction coefficients, bottom orbital velocity), provides closed-form Airy and second-order Stokes surface elevation, and exposes the Ursell number with a transparent wave-theory applicability gate. It additionally answers the Lagrangian question that Eulerian wave calculators do not: the closed-form Stokes drift profile, the depth-integrated Stokes transport, a single mean drift velocity directly comparable to the net velocity a GNSS-tracked drifter reports, and an RK4 particle integrator whose net parcel velocity converges to the closed form as wave steepness vanishes. A raschii bridge supplies higher-order Stokes and Fenton stream-function profiles.",
   "creators": [
     {
       "name": "Griffin, Kevin",
@@ -14,11 +14,16 @@
     "ocean waves",
     "linear wave theory",
     "Stokes waves",
+    "Stokes drift",
+    "Lagrangian transport",
+    "particle tracking",
+    "wave-following drifters",
     "dispersion relation",
     "shoaling",
     "refraction",
     "Ursell number",
     "coastal engineering",
+    "physical oceanography",
     "hydrography",
     "bathymetry"
   ],
