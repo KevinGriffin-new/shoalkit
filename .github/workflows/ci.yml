@@ -22,3 +22,17 @@ jobs:
           pip install -e ".[test,nonlinear]"
       - name: Run tests
         run: pytest -q
+
+  # The version lives in src/shoalkit/__init__.py and the subtitle in five
+  # files. Nothing used to cross-check them, and they drifted twice. This job
+  # is that check. It matters most on a tag: the Zenodo webhook mints from the
+  # tag, and a minted DOI cannot be edited afterwards.
+  metadata:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check metadata consistency
+        run: python tools/check_metadata.py
