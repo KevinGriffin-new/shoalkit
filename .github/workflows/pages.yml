@@ -1,0 +1,74 @@
+# Build and deploy the GitHub Pages site.
+#
+# Replaces the auto-generated "pages build and deployment" workflow that ran
+# when Pages was set to "Deploy from a branch". That path gave no useful deploy
+# logs — when it wedged in July 2026 the only diagnostic was "Deployment
+# failed, try again later", and the site served a stale commit for four weeks
+# before anyone noticed. An explicit workflow puts the build and the deploy in
+# the Actions log where they can be read.
+#
+# Requires: Settings -> Pages -> Source = "GitHub Actions".
+
+name: pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# deploy-pages needs pages:write and id-token:write for OIDC.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deploy at a time. Do NOT cancel in progress — a half-finished Pages
+# deployment is how the legacy pipeline got stuck.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Build with Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+
+      # Fail loudly if the exclude list in _config.yml stops working. These
+      # paths were publicly served before this workflow existed; if any of them
+      # reappears in _site the build should go red rather than silently
+      # republish the whole repository.
+      - name: Assert repository internals are not published
+        run: |
+          set -e
+          fail=0
+          for p in src tests paper examples pyproject.toml CITATION.cff; do
+            if [ -e "_site/$p" ]; then echo "::error::_site/$p should not be published"; fail=1; fi
+          done
+          for p in index.html web/wave-calculator.html docs/drift_figure.png; do
+            if [ ! -e "_site/$p" ]; then echo "::error::_site/$p is missing from the build"; fail=1; fi
+          done
+          exit $fail
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
